@@ -3,7 +3,7 @@ select
   code_points_to_string([code_point]) as char,
   code_point,
   count(*) as char_cnt
-from `facteus.transactions_sent`,
+from `[EXTERNAL PARTNER].transactions_sent`,
   unnest(to_code_points(description)) as code_point
 group by 1,2
 order by 3 desc;
@@ -24,7 +24,7 @@ from(
       description as d,
       split(description, '') as char_arr
     --from unnest(["hmmm a string","and another string", "yet another string! \t\n\r"]) as d
-    from `facteus.transactions_sent`
+    from `[EXTERNAL PARTNER].transactions_sent`
   ) t
   cross join unnest(char_arr) as char
   group by 1,2
